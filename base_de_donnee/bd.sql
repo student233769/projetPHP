@@ -1,9 +1,8 @@
-
 DROP TABLE IF EXISTS Ressources;
 DROP TABLE IF EXISTS Cours;
 DROP TABLE IF EXISTS Personne;
 
--- 2) Table personne
+-- 1) Table personne
 CREATE TABLE Personne (
 
   matricule VARCHAR(50) PRIMARY KEY,
@@ -14,7 +13,7 @@ CREATE TABLE Personne (
   administrateur TINYINT(1) NOT NULL DEFAULT 0
 );
 
--- 4) Table cours (hérite de card)
+-- 2) Table cours (hérite de card)
 CREATE TABLE Cours (
   id INT AUTO_INCREMENT PRIMARY KEY,
   titre VARCHAR(150) NOT NULL,
@@ -22,7 +21,7 @@ CREATE TABLE Cours (
   section VARCHAR(50) NOT NULL
 );
 
--- 5) Table ressources
+-- 3) Table ressources
 CREATE TABLE Ressources (
   id INT AUTO_INCREMENT PRIMARY KEY,
   dateAjout DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,3 +41,31 @@ CREATE TABLE Ressources (
     FOREIGN KEY (personne_id)
     REFERENCES Personne(matricule)
 ); 
+
+
+
+
+
+-- 4) Insertion de donnée
+INSERT INTO Personne (matricule, mdp, nom, prenom, avatar, administrateur) VALUES
+('U001', 'mdp123', 'Durand', 'Alice', NULL, 0),
+('U002', 'mdp456', 'Martin', 'Bob', NULL, 0),
+('U003', 'mdp789', 'Dupont', 'Clara', NULL, 0),
+('A001', 'admin123', 'Lemoine', 'David', NULL, 1),
+('A002', 'admin456', 'Moreau', 'Emma', NULL, 1);
+
+INSERT INTO Cours (titre, bloc, section) VALUES
+('Algo 1', 'Bloc1', 'Info'),
+('Programmation C', 'Bloc1', 'Info'),
+('Systèmes', 'Bloc1', 'Info'),
+('POO Java', 'Bloc2', 'Info'),
+('BDD', 'Bloc2', 'Info'),
+('Web', 'Bloc2', 'Info');
+
+INSERT INTO Cours (titre, bloc, section) VALUES
+('Introduction à la comptabilité', 'Bloc1', 'Comptabilité'),
+('Comptabilité générale', 'Bloc1', 'Comptabilité'),
+('Mathématiques financières', 'Bloc1', 'Comptabilité'),
+('Comptabilité analytique', 'Bloc2', 'Comptabilité'),
+('Fiscalité des entreprises', 'Bloc2', 'Comptabilité'),
+('Droit comptable', 'Bloc2', 'Comptabilité');
