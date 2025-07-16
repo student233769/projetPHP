@@ -1,5 +1,36 @@
+<!-- lancer xampp -->
+<!-- npm run dev -->
+
+
 <?php
-echo "coucou"
+echo "coucou";
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+require_once __DIR__ . '/class/Personne.php';
+
+$actual_user = null;
+session_start();
+
+
+
+if (isset($_SESSION['user'])) {
+    $actual_user = unserialize($_SESSION['user']);
+} else {
+    $actual_user = new Personne();
+}
+
+/*if (isset($_GET['action']) && $_GET['action'] === 'logout'){
+    session_unset();
+    session_destroy();
+    header("Location: index.php");
+    exit;
+}*/
+
+session_write_close();
 ?>
 
 <!doctype html>
@@ -12,9 +43,8 @@ echo "coucou"
     <script src="http://localhost:5173/@vite/client" type="module"></script>
   </head>
   <body>
-    <div class="container py-4 px-3 mx-auto">
-      <h1>Hello, Bootstrap and Vite!</h1>
-      <button class="btn btn-primary">Primary button</button>
-    </div>
+        
   </body>
 </html>
+
+
