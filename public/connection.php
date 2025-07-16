@@ -1,7 +1,15 @@
 <?php
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+
 require_once __DIR__.'/class/Personne.php';
-//dossier fonction fonction
-session_start();
+require_once __DIR__.'/../base_de_donnee/recup_info.php';
+
+// session_start();
 
 
 
@@ -26,7 +34,7 @@ if( $_SERVER['REQUEST_METHOD'] === 'POST' ){
     $password = $_POST['password'] ?? null;
 
     if( !empty($matricule) && !empty($password) ){
-        //$current_user = connection_profile_user($matricule, $password);
+        $current_user = login($matricule, $password);
 
         if( $current_user === null ){
             $current_user = new Personne();

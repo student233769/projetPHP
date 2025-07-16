@@ -6,13 +6,24 @@ function login($matricule, $motdepasse) {
     $pdo = getConnexion();
     $stmt = $pdo->prepare("SELECT * FROM Personne WHERE matricule = ? AND mdp = ?");
     $stmt->execute([$matricule, $motdepasse]);
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    
 
-    if ($user) {
-        $_SESSION['user'] = $user;
-        return true;
+    if ($stmt->rowCount()>0){
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+                $user = new Personne(
+                $user['matricule'],
+                $user['password'],
+                $user['nom'],
+                $user['prenom'],
+                $user['avatar_path'],
+                $user['role']
+            );
+            return $user;
+    }else{
+        return null;
     }
-    return false;
+
 }
 
 function getCoursAvecRessourcesValidees() {
