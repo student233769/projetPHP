@@ -3,7 +3,6 @@
 
 
 <?php
-echo "coucou";
 
 
 ini_set('display_errors', 1);
@@ -43,7 +42,27 @@ session_write_close();
     <script src="http://localhost:5173/@vite/client" type="module"></script>
   </head>
   <body>
-        
+      <div class="navbar navbar-expand-lg navbar-dark bg-dark p-3 w-100">
+            <div class="container-fluid d-flex flex-column flex-lg-row align-items-center justify-content-between">
+                
+                <!-- USER SECTION -->
+                <?php include './page_builder/header.php'; ?>
+
+
+                <!-- NAVIGATION SECTION -->
+                <div class="navbar-nav d-flex flex-column flex-lg-row gap-3 text-center text-lg-end">
+                    <?php if(!$actual_user->is_admin()): ?>
+                        <a class="nav-link text-light" href="./connection.php">Se connecter</a>
+                    <?php else: ?>
+                        <a class="nav-link text-light" href="?action=logout">Se déconnecter</a>
+                        <?php if($actual_user->is_admin()): ?>
+                            <a class="nav-link text-light" href="./admin/admin_index.php">Page Admin</a>
+                        <?php endif; ?>
+                    <?php endif; ?>
+                </div>
+
+            </div>
+        </div>
   </body>
 </html>
 
