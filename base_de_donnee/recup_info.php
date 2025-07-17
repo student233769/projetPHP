@@ -13,7 +13,7 @@ function login($matricule, $motdepasse) {
 
                 $user = new Personne(
                 $user['matricule'],
-                $user['mdp'],//ici correction de password a mdp
+                $user['mdp'],
                 $user['nom'],
                 $user['prenom'],
                 $user['avatar'],
