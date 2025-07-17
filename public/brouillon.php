@@ -1,11 +1,18 @@
-<?php 
-  echo "DEBUG URL → ", htmlspecialchars($url_to_public_folder . $actual_user->getAvatar());
-  exit;
-?>
-<?php if (!empty($_SESSION['user']['avatar_path'])): ?>
-    <img 
-        src="/ViteExo3Chap2/public/profile_pict/<?= 
-            htmlspecialchars($_SESSION['user']['avatar_path'], ENT_QUOTES) 
-        ?>" 
-        alt="Photo de profil de <?= htmlspecialchars($_SESSION['user']['prenom'], ENT_QUOTES) ?>"
-    >
+        <div class="container mt-5">
+            <h1>Cours disponible</h1>
+            <div class="row" id="quotes-container">
+                <?php if(count($liste_cours) > 0): ?>
+                    <?php foreach($cours as $liste_cours): ?>
+                        <?php echo '<div class="col-12 col-md-3 mb-3">' ?>
+                    
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><?php echo htmlspecialchars($cours['author']) ?></h5>
+                            <p class="card-text"><?php echo htmlspecialchars($cours['content']) ?></p>
+                            <p class="card-footer text-muted"><?php echo $cours['created_at'] ?></p>
+                            <p class="text-muted">Posté par : <?php echo htmlspecialchars($cours['posted_by']) ?></p>
+                            <p class="text-muted">Nombre de like : <?php echo get_nb_like($cours['quote_id']) ?></p>
+                        </div>
+                    </div>
+            </div>
+        </div>
