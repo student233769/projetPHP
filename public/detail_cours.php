@@ -1,7 +1,3 @@
-<!-- lancer xampp -->
-<!-- npm run dev -->
-
-
 <?php
 
 
@@ -24,17 +20,12 @@ if (isset($_SESSION['user'])) {
     $actual_user = new Personne();
 }
 
-if (isset($_GET['action']) && $_GET['action'] === 'logout'){
-    session_unset();
-    session_destroy();
-    header("Location: index.php");
-    exit;
-}
+$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
+echo $id;
 
-$liste_cours = getCoursAvecRessourcesValidees();
-
-session_write_close();
+$list_ressources = getRessourcesValideesPourCours($id);
 ?>
+
 
 <!doctype html>
 <html lang="en">
@@ -70,40 +61,27 @@ session_write_close();
             </div>
         </div>
 
-        <!-- OPTION DE TRI -->
-        <form method="POST" class="mb-4">
-
-            <label for="sort_by" class="form-label">Trier par :</label>
-            <select name="sort_by" id="sort_by" class="form-select" onchange="/*this.form.submit()*/">
-                <option value="date_sort">Date (du plus récent au plus ancien)</option>
-                <option value="like_sort">Nombre de likes (du plus au moins)</option>
-                <option value="follow_sort">personne follow</option>
-            </select>
-
-        </form>
-
         <div class="container mt-5">
             <h1>Cours disponible</h1>
             <div class="row" id="quotes-container">
-                <?php if(count($liste_cours) > 0): ?>
-                    <?php foreach($liste_cours as $cours): ?>
+                <?php if(count($list_ressources) > 0): ?>
+                    <?php foreach($list_ressources as $ressources): ?>
                     <div class="col-12 col-md-6 col-lg-4 mb-4">  
                         <div class="card">
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo htmlspecialchars($cours->getTitre()) ?></h5>
-                                <p class="card-text"><?php echo htmlspecialchars($cours->getBloc()) ?></p>
-                                <p class="card-footer text-muted"><?php echo $cours->getSection() ?></p>
-                                <p class="card-footer text-muted"><?php echo $cours->getId() ?></p>
-                                <p class="card-footer text-muted">nombre de ressource :<?php echo count(getRessourcesValideesPourCours($cours->getId())) ?></p>
-                                <a href="detail_cours.php?id=<?= urlencode($cours->getId()) ?>" class="btn btn-primary">
-                                    consulter
-                                </a>
+                                <h5 class="card-title"><?php echo $ressources->getTitre() ?></h5>
+                                <p class="card-text"><?php echo $ressources->getType() ?></p>
+                                <p class="card-footer text-muted"><?php echo $ressources->getPersonneId() ?></p>
+                                <!-- <p class="card-footer text-muted"><?php echo $ressources->getEstDejaLue() ?></p> -->
+                                <p class="card-footer text-muted"><?php echo $ressources->getCheminRelatif() ?></p>
+                                <p class="card-footer text-muted"><?php echo $ressources->getAuteurNom() ?></p>
+                                <p class="card-footer text-muted"><?php echo $ressources->getAuteurPrenom() ?></p>
                             </div>
                         </div>
                     </div>
                     <?php endforeach;  ?>
                 <?php else: ?>
-                    <p>Aucun cours disponible pour le moment.</p>
+                    <p>Aucun ressource disponible pour le moment.</p>
                 <?php endif; ?>
             </div>
         </div>

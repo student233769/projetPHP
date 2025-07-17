@@ -2,7 +2,7 @@
             <h1>Cours disponible</h1>
             <div class="row" id="quotes-container">
                 <?php if(count($liste_cours) > 0): ?>
-                    <?php foreach($cours as $liste_cours): ?>
+                    <?php foreach($liste_cours as $cours): ?>
                         <?php echo '<div class="col-12 col-md-3 mb-3">' ?>
                     
                     <div class="card">
@@ -14,5 +14,9 @@
                             <p class="text-muted">Nombre de like : <?php echo get_nb_like($cours['quote_id']) ?></p>
                         </div>
                     </div>
+                    <?php endforeach;  ?>
+                <?php else: ?>
+                    <p>Aucun cours disponible pour le moment.</p>
+                <?php endif; ?>
             </div>
         </div>
