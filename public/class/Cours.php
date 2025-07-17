@@ -9,12 +9,12 @@ class Cours {
     private string $section;
     private array $ressources;
 
-    public function __construct(string $titre, string $bloc, string $section, int $id = 0) {
+    public function __construct(string $titre, string $bloc, string $section, int $id = 0, array $ressources = []) {
         $this->titre = $titre;
         $this->bloc = $bloc;
         $this->section = $section;
         $this->id = $id;
-        $this->ressources = [];
+        $this->ressources = $ressources;
     }
 
     public function getId(): int {

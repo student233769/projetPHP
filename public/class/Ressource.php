@@ -7,20 +7,18 @@ class Ressource {
     private string $type;
     private ?DateTime $dateValidationAjout;
     private string $etat;
-    private bool $estDejaLue;
     private ?string $cheminRelatif;
     private int $coursId;
     private string $personneId;
     private ?string $auteurNom = null;
     private ?string $auteurPrenom = null;
 
-    public function __construct(string $titre,string $type,int $coursId,string $personneId,string $etat = 'EN_ATTENTE',bool $estDejaLue = false,?string $cheminRelatif = null,DateTime|string|null $dateValidationAjout = null,DateTime|string|null $dateAjout = null,int $id = 0) {
+    public function __construct(string $titre,string $type,int $coursId,string $personneId,string $etat = 'EN_ATTENTE',?string $cheminRelatif = null,DateTime|string|null $dateValidationAjout = null,DateTime|string|null $dateAjout = null,int $id = 0) {
         $this->titre = $titre;
         $this->type = $type;
         $this->coursId = $coursId;
         $this->personneId = $personneId;
         $this->etat = $etat;
-        $this->estDejaLue = $estDejaLue;
         $this->cheminRelatif = $cheminRelatif;
         $this->dateAjout = $this->parseDate($dateAjout ?? new DateTime());
         $this->dateValidationAjout = $dateValidationAjout ? $this->parseDate($dateValidationAjout) : null;

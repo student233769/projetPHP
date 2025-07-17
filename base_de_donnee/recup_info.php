@@ -1,7 +1,9 @@
 <?php
-session_start();
-
 require_once 'bd_connection.php';
+require_once '../class/Personne.php';
+require_once '../class/Cours.php';
+require_once '../class/Ressource.php';
+
 function login($matricule, $motdepasse) {
     $pdo = getConnexion();
     $stmt = $pdo->prepare("SELECT * FROM Personne WHERE matricule = ? AND mdp = ?");
@@ -11,15 +13,15 @@ function login($matricule, $motdepasse) {
     if ($stmt->rowCount()>0){
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-                $user = new Personne(
-                $user['matricule'],
-                $user['mdp'],
-                $user['nom'],
-                $user['prenom'],
-                $user['avatar'],
-                $user['role']
-            );
-            return $user;
+        $personne = new Personne(
+            $user['matricule'],
+            $user['mdp'],
+            $user['nom'],
+            $user['prenom'],
+            $user['avatar'],
+            $user['administrateur']
+        );
+        return $personne;
     }else{
         return null;
     }
@@ -30,7 +32,7 @@ function getCoursAvecRessourcesValidees() {
     $pdo = getConnexion();
     $sql = "
         SELECT 
-            c.*, 
+            c.id, c.titre, c.bloc, c.section, 
             MAX(r.dateAjout) AS derniereRessource
         FROM 
             Cours c
@@ -38,23 +40,52 @@ function getCoursAvecRessourcesValidees() {
             Ressources r 
             ON c.id = r.cours_id AND r.etat = 'VALIDE'
         GROUP BY 
-            c.id
+            c.id, c.titre, c.bloc, c.section
         ORDER BY 
             derniereRessource DESC
     ";
-    return $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    $stmt = $pdo->query($sql);
+    $coursList = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $coursList[] = new Cours(
+            $row['titre'],
+            $row['bloc'],
+            $row['section'],
+            $row['id']
+        );
+    }
+    return $coursList;
 }
 
 function getRessourcesValideesPourCours($coursId) {
     $pdo = getConnexion();
     $sql = "
-        SELECT * FROM Ressources
-        WHERE cours_id = ? AND etat = 'VALIDE'
-        ORDER BY dateAjout DESC
+        SELECT r.*, p.nom AS auteurNom, p.prenom AS auteurPrenom
+        FROM Ressources r
+        JOIN Personne p ON r.personne_id = p.matricule
+        WHERE r.cours_id = ? AND r.etat = 'VALIDE'
+        ORDER BY r.dateAjout DESC
     ";
     $stmt = $pdo->prepare($sql);
     $stmt->execute([$coursId]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $ressourcesList = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $ressource = new Ressource(
+            $row['titre'],
+            $row['type'],
+            $row['cours_id'],
+            $row['personne_id'],
+            $row['etat'],
+            $row['cheminRelatif'],
+            $row['dateValidationAjout'],
+            $row['dateAjout'],
+            $row['id']
+        );
+        $ressource->setAuteurNom($row['auteurNom']);
+        $ressource->setAuteurPrenom($row['auteurPrenom']);
+        $ressourcesList[] = $ressource;
+    }
+    return $ressourcesList;
 }
 
 function ajouterRessource($titre, $type, $cheminRelatif, $coursId) {
@@ -71,7 +102,7 @@ function ajouterRessource($titre, $type, $cheminRelatif, $coursId) {
         $type,
         $cheminRelatif,
         $coursId,
-        $_SESSION['user']['matricule']
+        $_SESSION['user']->getMatricule()
     ]);
 }
 
@@ -93,12 +124,32 @@ function getRessourcesUtilisateurConnecte() {
 
     $pdo = getConnexion();
     $sql = "
-        SELECT * FROM Ressources
-        WHERE personne_id = ?
-        ORDER BY dateAjout DESC
+        SELECT r.*, p.nom AS auteurNom, p.prenom AS auteurPrenom
+        FROM Ressources r
+        JOIN Personne p ON r.personne_id = p.matricule
+        WHERE r.personne_id = ?
+        ORDER BY r.dateAjout DESC
     ";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$_SESSION['user']['matricule']]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $stmt->execute([$_SESSION['user']->getMatricule()]);
+    $ressourcesList = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $ressource = new Ressource(
+            $row['titre'],
+            $row['type'],
+            $row['cours_id'],
+            $row['personne_id'],
+            $row['etat'],
+            $row['cheminRelatif'],
+            $row['dateValidationAjout'],
+            $row['dateAjout'],
+            $row['id']
+        );
+        $ressource->setAuteurNom($row['auteurNom']);
+        $ressource->setAuteurPrenom($row['auteurPrenom']);
+        $ressourcesList[] = $ressource;
+    }
+    return $ressourcesList;
 }
 
+?>
