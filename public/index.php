@@ -10,6 +10,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once __DIR__ . '/class/Personne.php';
+require_once __DIR__ . '/../base_de_donnee/recup_info.php';
 
 $actual_user = null;
 session_start();
@@ -29,6 +30,8 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout'){
     exit;
 }
 
+$liste_cours = getCoursAvecRessourcesValidees();
+
 session_write_close();
 ?>
 
@@ -42,6 +45,8 @@ session_write_close();
     <script src="http://localhost:5173/@vite/client" type="module"></script>
   </head>
   <body>
+    <main>
+
       <div class="navbar navbar-expand-lg navbar-dark bg-dark p-3 w-100">
             <div class="container-fluid d-flex flex-column flex-lg-row align-items-center justify-content-between">
                 
@@ -51,7 +56,7 @@ session_write_close();
 
                 <!-- NAVIGATION SECTION -->
                 <div class="navbar-nav d-flex flex-column flex-lg-row gap-3 text-center text-lg-end">
-                    <?php if(!$actual_user->is_admin()): ?>
+                    <?php if($actual_user->getMatricule() == null): ?>
                         <a class="nav-link text-light" href="./connection.php">Se connecter</a>
                     <?php else: ?>
                         <a class="nav-link text-light" href="?action=logout">Se déconnecter</a>
@@ -63,7 +68,23 @@ session_write_close();
 
             </div>
         </div>
-  </body>
+
+        <!-- OPTION DE TRI -->
+        <form method="POST" class="mb-4">
+
+            <label for="sort_by" class="form-label">Trier par :</label>
+            <select name="sort_by" id="sort_by" class="form-select" onchange="/*this.form.submit()*/">
+                <option value="date_sort">Date (du plus récent au plus ancien)</option>
+                <option value="like_sort">Nombre de likes (du plus au moins)</option>
+                <option value="follow_sort">personne follow</option>
+            </select>
+
+        </form>
+
+
+    </main>
+
+    </body>
 </html>
 
 

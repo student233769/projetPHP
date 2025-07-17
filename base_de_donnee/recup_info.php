@@ -1,8 +1,8 @@
 <?php
 require_once 'bd_connection.php';
-require_once '../class/Personne.php';
-require_once '../class/Cours.php';
-require_once '../class/Ressource.php';
+require_once '../public/class/Personne.php';
+require_once '../public/class/Cours.php';
+require_once '../public/class/Ressource.php';
 
 function login($matricule, $motdepasse) {
     $pdo = getConnexion();
