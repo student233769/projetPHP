@@ -1,8 +1,8 @@
 <?php
 require_once 'bd_connection.php';
-require_once '../public/class/Personne.php';
-require_once '../public/class/Cours.php';
-require_once '../public/class/Ressource.php';
+require_once __DIR__ . '/../public/class/Personne.php';
+require_once __DIR__ .  '/../public/class/Cours.php';
+require_once __DIR__ .  '/../public/class/Ressource.php';
 
 function login($matricule, $motdepasse) {
     $pdo = getConnexion();
@@ -152,4 +152,36 @@ function getRessourcesUtilisateurConnecte() {
     return $ressourcesList;
 }
 
+
+function getRessourcesEnAttenteAvecAuteur() {
+    $pdo = getConnexion();
+    $sql = "
+        SELECT r.*, p.nom AS auteurNom, p.prenom AS auteurPrenom, c.titre AS coursTitre
+        FROM Ressources r
+        JOIN Personne p ON r.personne_id = p.matricule
+        JOIN Cours c ON r.cours_id = c.id
+        WHERE r.etat = 'EN_ATTENTE'
+        ORDER BY r.dateAjout ASC
+    ";
+    $stmt = $pdo->query($sql);
+    $ressourcesList = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $ressource = new Ressource(
+            $row['titre'],
+            $row['type'],
+            $row['cours_id'],
+            $row['personne_id'],
+            $row['etat'],
+            $row['cheminRelatif'],
+            $row['dateValidationAjout'],
+            $row['dateAjout'],
+            $row['id']
+        );
+        $ressource->setAuteurNom($row['auteurNom']);
+        $ressource->setAuteurPrenom($row['auteurPrenom']);
+        $ressource->setCoursTitre($row['coursTitre']);
+        $ressourcesList[] = $ressource;
+    }
+    return $ressourcesList;
+}
 ?>

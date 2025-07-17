@@ -1,5 +1,4 @@
 <?php
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -13,7 +12,16 @@ if ($baseUrl === false || $baseUrl === '') {
 
 $avatar = $_SESSION['user']['avatar'] ?? 'buste.jpg';
 $imgSrc = $baseUrl . '/../profile_pict/' . $avatar;
+$actual_user = null;
+session_start();
 
+
+
+if (isset($_SESSION['user'])) {
+    $actual_user = unserialize($_SESSION['user']);
+} else {
+    $actual_user = new Personne();
+}
 
 ?>
 

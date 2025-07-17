@@ -13,17 +13,6 @@ require_once __DIR__ . '/class/Personne.php';
 require_once __DIR__ . '/class/Ressource.php';
 require_once __DIR__ . '/../base_de_donnee/recup_info.php';
 
-$actual_user = null;
-session_start();
-
-
-
-if (isset($_SESSION['user'])) {
-    $actual_user = unserialize($_SESSION['user']);
-} else {
-    $actual_user = new Personne();
-}
-
 if (isset($_GET['action']) && $_GET['action'] === 'logout'){
     session_unset();
     session_destroy();

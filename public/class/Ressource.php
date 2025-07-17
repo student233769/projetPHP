@@ -9,6 +9,7 @@ class Ressource {
     private string $etat;
     private ?string $cheminRelatif;
     private int $coursId;
+    private string $coursTitre;
     private string $personneId;
     private ?string $auteurNom = null;
     private ?string $auteurPrenom = null;
@@ -43,6 +44,8 @@ class Ressource {
     public function getId(): int { return $this->id; }
     public function getAuteurNom(): ?string { return $this->auteurNom; }
     public function getAuteurPrenom(): ?string { return $this->auteurPrenom; }
+    public function getCoursTitre(): ?string { return $this->coursTitre; }
+    public function setCoursTitre(string $nomCours) {$this->coursTitre = $nomCours; }
     public function setAuteurNom(string $nom): void { $this->auteurNom = $nom; }
     public function setAuteurPrenom(string $prenom): void { $this->auteurPrenom = $prenom; }
     public function setAuteurFromPersonne(Personne $p): void {

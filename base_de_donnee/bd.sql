@@ -27,7 +27,7 @@ CREATE TABLE Ressources (
   id INT AUTO_INCREMENT PRIMARY KEY,
   dateAjout DATETIME       NOT NULL DEFAULT CURRENT_TIMESTAMP,
   titre VARCHAR(150)       NOT NULL,
-  type VARCHAR(50)         NOT NULL,
+  type ENUM('JPG', 'PNG', 'URL', 'PDF') NOT NULL,
   dateValidationAjout DATETIME,
   etat ENUM('EN_ATTENTE','VALIDE','REJETE')
        NOT NULL DEFAULT 'EN_ATTENTE',
@@ -62,7 +62,7 @@ INSERT INTO Personne (matricule, mdp, nom, prenom, avatar, administrateur) VALUE
 ('U001', 'mdp123', 'Durand', 'Alice', "buste.jpg", 0),
 ('U002', 'mdp123', 'Martin', 'Bob', NULL, 0),
 ('U003', 'mdp123', 'Dupont', 'Clara', NULL, 0),
-('A001', 'mpd123', 'Lemoine', 'David', NULL, 1),
+('A001', 'mdp123', 'Lemoine', 'David', NULL, 1),
 ('A002', 'mdp123', 'Moreau', 'Emma', NULL, 1);
 
 INSERT INTO Cours (titre, bloc, section) VALUES
@@ -82,9 +82,9 @@ INSERT INTO Cours (titre, bloc, section) VALUES
 ('Droit comptable', 'Bloc2', 'Comptabilité');
 
 INSERT INTO Ressources (titre, type, etat, cours_id, personne_id,cheminRelatif) VALUES
-('Introduction à l’algorithmique', 'lien', 'VALIDE', 1, 'U001','https://www.youtube.com/watch?v=mv60qJqdTK4&list=PLB2JiklA1NHFSNkbaX4Z8X06c_acz7OFq&ab_channel=Mathrix'),
-('Structures conditionnelles en C', 'lien', 'VALIDE', 2, 'U002', 'https://www.youtube.com/watch?v=n8zPIBIG0qE&ab_channel=HassanELBAHI'),
-('Modélisation de bases de données', 'lien', 'EN_ATTENTE', 5, 'U003', 'https://www.youtube.com/watch?v=H3iUhS_t_F4&list=PLlxQJeQRaKDTepDEHUYOEiT-qCDBQvTva&ab_channel=LESTEACHERSDUNET');
+('Introduction à l’algorithmique', 'URL', 'VALIDE', 1, 'U001','https://www.youtube.com/watch?v=mv60qJqdTK4&list=PLB2JiklA1NHFSNkbaX4Z8X06c_acz7OFq&ab_channel=Mathrix'),
+('Structures conditionnelles en C', 'URL', 'VALIDE', 2, 'U002', 'https://www.youtube.com/watch?v=n8zPIBIG0qE&ab_channel=HassanELBAHI'),
+('Modélisation de bases de données', 'URL', 'EN_ATTENTE', 5, 'U003', 'https://www.youtube.com/watch?v=H3iUhS_t_F4&list=PLlxQJeQRaKDTepDEHUYOEiT-qCDBQvTva&ab_channel=LESTEACHERSDUNET');
 
 INSERT INTO LectureRessource (personne_id, ressource_id) VALUES
 ('U001', 1),

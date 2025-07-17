@@ -1,6 +1,6 @@
 <?php
 if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
-    include '../includes/no_access.php';
+    include 'no_access.php';
 }
 
     // CHECK IF THE USER IS NOT AN ADMIN
