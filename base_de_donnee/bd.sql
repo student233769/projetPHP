@@ -48,7 +48,7 @@ CREATE TABLE Ressources (
 
 -- 4) Insertion de donnée
 INSERT INTO Personne (matricule, mdp, nom, prenom, avatar, administrateur) VALUES
-('U001', 'mdp123', 'Durand', 'Alice', NULL, 0),
+('U001', 'mdp123', 'Durand', 'Alice', "buste.jpg", 0),
 ('U002', 'mdp456', 'Martin', 'Bob', NULL, 0),
 ('U003', 'mdp789', 'Dupont', 'Clara', NULL, 0),
 ('A001', 'admin123', 'Lemoine', 'David', NULL, 1),

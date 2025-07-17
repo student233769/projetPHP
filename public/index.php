@@ -22,12 +22,12 @@ if (isset($_SESSION['user'])) {
     $actual_user = new Personne();
 }
 
-/*if (isset($_GET['action']) && $_GET['action'] === 'logout'){
+if (isset($_GET['action']) && $_GET['action'] === 'logout'){
     session_unset();
     session_destroy();
     header("Location: index.php");
     exit;
-}*/
+}
 
 session_write_close();
 ?>
