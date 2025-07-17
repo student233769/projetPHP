@@ -56,16 +56,16 @@ $ressourcesEnAttente = getRessourcesEnAttenteAvecAuteur();
                                 <p class="card-text mb-0"><strong>Ajouté le:</strong> <?php echo $ressource->formatDateAjout(); ?></p>
                             </div>
                             <div class="card-footer" >
-                                <div class="btn-group">
+                                <div class="btn-group mt-3">
                                     <?php
                                         $cheminRelatif = $ressource->getCheminRelatif();
                                         $typeRessource = $ressource->getType();
 
                                         if (!empty($cheminRelatif)) {
                                             if ($typeRessource == 'URL') {
-                                                echo '<a href="' . htmlspecialchars($cheminRelatif) . '" target="_blank" class="btn btn-warning btn-sm mr-4">Consulter le lien</a>';
+                                                echo '<a href="' . htmlspecialchars($cheminRelatif) . '" target="_blank" class="btn btn-warning btn mr-4">Consulter le lien</a>';
                                             } else {
-                                                echo '<a href="' . htmlspecialchars($cheminRelatif) . '" download class="btn btn-warning btn-sm mr-4">Télécharger le fichier</a>';
+                                                echo '<a href="' . htmlspecialchars($cheminRelatif) . '" download class="btn btn-warning btn mr-4">Télécharger le fichier</a>';
                                             }
                                         } else {
                                             echo '<button type="button" class="btn btn-secondary btn-sm" disabled>Pas de ressource</button>';
@@ -73,11 +73,11 @@ $ressourcesEnAttente = getRessourcesEnAttenteAvecAuteur();
                                     ?>
                                     <form method="POST" class="d-inline-block">
                                         <input type="hidden" name="ressource_id" value="<?php echo $ressource->getId(); ?>">
-                                        <button type="submit" name="action" value="valider" class="btn btn-success btn-sm">Valider</button>
+                                        <button type="submit" name="action" value="valider" class="btn btn-success btn">Valider</button>
                                     </form>
                                     <form method="POST" class="d-inline-block">
                                         <input type="hidden" name="ressource_id" value="<?php echo $ressource->getId(); ?>">
-                                        <button type="submit" name="action" value="rejeter" class="btn btn-danger btn-sm">Rejeter</button>
+                                        <button type="submit" name="action" value="rejeter" class="btn btn-danger btn">Rejeter</button>
                                     </form>
                                 </div>
                             </div>
