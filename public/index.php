@@ -3,7 +3,7 @@
 
 
 <?php
-
+session_start();
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -13,10 +13,10 @@ require_once __DIR__ . '/class/Personne.php';
 require_once __DIR__ . '/class/Ressource.php';
 require_once __DIR__ . '/../base_de_donnee/recup_info.php';
 
-if (isset($_GET['action']) && $_GET['action'] === 'logout'){
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_unset();
     session_destroy();
-    header("Location: index.php");
+    header('Location: index.php');
     exit;
 }
 
@@ -42,19 +42,6 @@ session_write_close();
                 
                 <!-- USER SECTION -->
                 <?php include './page_builder/header.php'; ?>
-
-
-                <!-- NAVIGATION SECTION -->
-                <div class="navbar-nav d-flex flex-column flex-lg-row gap-3 text-center text-lg-end">
-                    <?php if($actual_user->getMatricule() == null): ?>
-                        <a class="nav-link text-light" href="./connection.php">Se connecter</a>
-                    <?php else: ?>
-                        <a class="nav-link text-light" href="?action=logout">Se déconnecter</a>
-                        <?php if($actual_user->is_admin()): ?>
-                            <a class="nav-link text-light" href="./admin/admin_index.php">Page Admin</a>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </div>
 
             </div>
         </div>

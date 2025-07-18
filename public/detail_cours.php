@@ -1,6 +1,5 @@
 <?php
 
-
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -9,19 +8,32 @@ require_once __DIR__ . '/class/Personne.php';
 require_once __DIR__ . '/class/Ressource.php';
 require_once __DIR__ . '/../base_de_donnee/recup_info.php';
 
-$actual_user = null;
+
+// 1) on démarre la session tout de suite
 session_start();
 
+// 2) on détermine si l'utilisateur est logué
+$actual_user = isset($_SESSION['user'])
+    ? unserialize($_SESSION['user'])
+    : null;
 
-
-if (isset($_SESSION['user'])) {
-    $actual_user = unserialize($_SESSION['user']);
-} else {
-    $actual_user = new Personne();
+// 3) si accès direct *ET* pas d'utilisateur connecté → blocage
+if (
+    basename($_SERVER['PHP_SELF']) === basename(__FILE__)
+    && $actual_user === null
+) {
+    // redirige vers l'index ou affiche un message
+    $url_page_index = './index.php';
+    exit('
+      <div class="alert alert-danger text-center m-4" role="alert">
+        <strong>Accès interdit!</strong> Vous devez être connecté pour accéder à cette page.
+        <a href="' . htmlspecialchars($url_page_index, ENT_QUOTES) . '" class="alert-link">
+          Retourner à la page d\'accueil
+        </a>.
+      </div>
+    '); 
 }
 
-$id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
-echo $id;
 
 $list_ressources = getRessourcesValideesPourCours($id);
 ?>
@@ -46,17 +58,6 @@ $list_ressources = getRessourcesValideesPourCours($id);
                 <?php include './page_builder/header.php'; ?>
 
 
-                <!-- NAVIGATION SECTION -->
-                <div class="navbar-nav d-flex flex-column flex-lg-row gap-3 text-center text-lg-end">
-                    <?php if($actual_user->getMatricule() == null): ?>
-                        <a class="nav-link text-light" href="./connection.php">Se connecter</a>
-                    <?php else: ?>
-                        <a class="nav-link text-light" href="?action=logout">Se déconnecter</a>
-                        <?php if($actual_user->is_admin()): ?>
-                            <a class="nav-link text-light" href="./admin/admin_index.php">Page Admin</a>
-                        <?php endif; ?>
-                    <?php endif; ?>
-                </div>
 
             </div>
         </div>

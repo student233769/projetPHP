@@ -5,6 +5,27 @@ require_once '../class/Ressource.php';
 require_once '../class/Cours.php';
 require_once '../page_builder/header.php';
 
+
+if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
+    $url_page_index = '../index.php';
+    exit('
+    <div class="alert alert-danger" role="alert" style="text-align: center; margin: 20px;">
+        <strong>Accès interdit!</strong> Vous n\'avez pas le droit d\'accéder à cette page. 
+        <a href="'.htmlspecialchars($url_page_index, ENT_QUOTES).'" class="alert-link">Retourner à la page d\'accueil</a>.
+    </div>
+    ');
+}
+
+echo 'j ai charger le reste de la page';
+
+
+ ini_set('display_errors', 1);
+ ini_set('display_startup_errors', 1);
+ error_reporting(E_ALL);
+
+include '../class/Personne.php';
+
+include '../acces_page/admin_only.php';
 $message = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ressource_id']) && isset($_POST['action'])) {
