@@ -59,10 +59,10 @@ CREATE TABLE LectureRessource (
 
 -- 4) Insertion de donnée
 INSERT INTO Personne (matricule, mdp, nom, prenom, avatar, administrateur) VALUES
-('U001', 'mdp123', 'Durand', 'Alice', "buste.jpg", 0),
-('U002', 'mdp123', 'Martin', 'Bob', NULL, 0),
+('U001', 'mdp123', 'Durand', 'Alice', "xBoxAntonin.jpg", 0),
+('U002', 'mdp123', 'Martin', 'Bob', "xBoxLastTest.jpg", 0),
 ('U003', 'mdp123', 'Dupont', 'Clara', NULL, 0),
-('A001', 'mdp123', 'Lemoine', 'David', NULL, 1),
+('A001', 'mdp123', 'Lemoine', 'David', "xBoxLiveRobin.jpg", 1),
 ('A002', 'mdp123', 'Moreau', 'Emma', NULL, 1);
 
 INSERT INTO Cours (titre, bloc, section) VALUES
