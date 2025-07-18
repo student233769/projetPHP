@@ -25,8 +25,6 @@ if( isset($_SESSION['user']) ){
     }else{
         $message = "n'est pas un admin.";
     }
-}else{
-    echo "pas d'user en session";
 }
 
 if( $_SERVER['REQUEST_METHOD'] === 'POST' ){
@@ -65,7 +63,7 @@ echo $message;
     <script src="http://localhost:5173/src/js/main.js" type="module"></script>
     <script src="http://localhost:5173/@vite/client" type="module"></script>
 </head>
-    <?php echo "bonjour" ?>
+
 <body>
             <div>
             <?php if($message): ?>

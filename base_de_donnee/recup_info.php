@@ -122,6 +122,8 @@ function validerRessource($ressourceId, $etat) {
 function getRessourcesUtilisateurConnecte() {
     if (!isset($_SESSION['user'])) return [];
 
+    $matricule = $_SESSION['user'];
+
     $pdo = getConnexion();
     $sql = "
         SELECT r.*, p.nom AS auteurNom, p.prenom AS auteurPrenom
@@ -131,7 +133,7 @@ function getRessourcesUtilisateurConnecte() {
         ORDER BY r.dateAjout DESC
     ";
     $stmt = $pdo->prepare($sql);
-    $stmt->execute([$_SESSION['user']->getMatricule()]);
+    $stmt->execute([$matricule]);
     $ressourcesList = [];
     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
         $ressource = new Ressource(

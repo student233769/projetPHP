@@ -1,8 +1,8 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/class/Personne.php';
 require_once __DIR__ . '/class/Ressource.php';
@@ -35,7 +35,8 @@ if (
 }
 
 
-$list_ressources = getRessourcesValideesPourCours($id);
+$liste_cours_poster_utilisateur = getRessourcesUtilisateurConnecte();
+echo 'j ai recuperer '. count($liste_cours_poster_utilisateur);
 ?>
 
 
@@ -65,8 +66,8 @@ $list_ressources = getRessourcesValideesPourCours($id);
         <div class="container mt-5">
             <h1>Cours disponible</h1>
             <div class="row" id="quotes-container">
-                <?php if(count($list_ressources) > 0): ?>
-                    <?php foreach($list_ressources as $ressources): ?>
+                <?php if(count($liste_cours_poster_utilisateur) > 0): ?>
+                    <?php foreach($liste_cours_poster_utilisateur as $ressources): ?>
                     <div class="col-12 col-md-6 col-lg-4 mb-4">  
                         <div class="card">
                             <div class="card-body">
