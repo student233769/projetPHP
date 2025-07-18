@@ -88,7 +88,7 @@ function getRessourcesValideesPourCours($coursId) {
     return $ressourcesList;
 }
 
-function ajouterRessource($titre, $type, $cheminRelatif, $coursId) {
+function ajouterRessource($titre, $type, $cheminRelatif, $coursId,$matricule) {
     if (!isset($_SESSION['user'])) return false;
 
     $pdo = getConnexion();
@@ -102,7 +102,7 @@ function ajouterRessource($titre, $type, $cheminRelatif, $coursId) {
         $type,
         $cheminRelatif,
         $coursId,
-        $_SESSION['user']->getMatricule()
+        $matricule
     ]);
 }
 
