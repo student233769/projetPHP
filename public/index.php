@@ -45,34 +45,24 @@ session_write_close();
 
             </div>
         </div>
-
-        <!-- OPTION DE TRI -->
-        <form method="POST" class="mb-4">
-
-            <label for="sort_by" class="form-label">Trier par :</label>
-            <select name="sort_by" id="sort_by" class="form-select" onchange="/*this.form.submit()*/">
-                <option value="date_sort">Date (du plus récent au plus ancien)</option>
-                <option value="like_sort">Nombre de likes (du plus au moins)</option>
-                <option value="follow_sort">personne follow</option>
-            </select>
-
-        </form>
-
-        <div class="container mt-5">
+        <div class="container mt-3">
             <h1>Cours disponible</h1>
             <div class="row" id="quotes-container">
                 <?php if(count($liste_cours) > 0): ?>
                     <?php foreach($liste_cours as $cours): ?>
                     <div class="col-12 col-md-6 col-lg-4 mb-4">  
                         <div class="card">
+                            <div class="card-header">
+                                <h3><?php echo htmlspecialchars($cours->getTitre()) ?></h4>
+                            </div>
                             <div class="card-body">
-                                <h5 class="card-title"><?php echo htmlspecialchars($cours->getTitre()) ?></h5>
+                                <h5 class="card-title"><?php echo $cours->getSection() ?></h5>
                                 <p class="card-text"><?php echo htmlspecialchars($cours->getBloc()) ?></p>
-                                <p class="card-footer text-muted"><?php echo $cours->getSection() ?></p>
-                                <p class="card-footer text-muted"><?php echo $cours->getId() ?></p>
-                                <p class="card-footer text-muted">nombre de ressource :<?php echo count(getRessourcesValideesPourCours($cours->getId())) ?></p>
+                                <p class="text-muted">nombre de ressource :<?php echo count(getRessourcesValideesPourCours($cours->getId())) ?></p>
+                            </div>
+                            <div class="card-footer">
                                 <a href="detail_cours.php?id=<?= urlencode($cours->getId()) ?>" class="btn btn-primary">
-                                    consulter
+                                    voir les ressources
                                 </a>
                             </div>
                         </div>
