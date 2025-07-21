@@ -8,7 +8,7 @@ class Personne{
     private $avatar;
     private $admin;
 
-    function __construct($matricule = null, $mdp = null, $nom = null, $prenom= null,$avatar = '../profile_pict/buste.jpg', $admin=0)
+    function __construct($matricule = null, $mdp = null, $nom = null, $prenom= null,$avatar = 'buste.jpg', $admin=0)
     {
         if ($matricule != null) $this->matricule = $matricule;
         if ($mdp != null) $this->mdp = $mdp;

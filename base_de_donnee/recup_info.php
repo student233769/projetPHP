@@ -28,6 +28,40 @@ function login($matricule, $motdepasse) {
 
 }
 
+function getCoursNonVideValider(){
+        $pdo = getConnexion();
+        $sql = "
+        SELECT 
+            c.id, 
+            c.titre, 
+            c.bloc, 
+            c.section, 
+            MAX(r.dateAjout) AS derniereRessource
+        FROM 
+            Cours c
+        INNER JOIN 
+            Ressources r 
+              ON c.id = r.cours_id
+             AND r.etat = 'VALIDE'
+        GROUP BY 
+            c.id, c.titre, c.bloc, c.section
+        ORDER BY 
+            derniereRessource DESC
+    ";
+
+        $stmt = $pdo->query($sql);
+    $coursList = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $coursList[] = new Cours(
+            $row['titre'],
+            $row['bloc'],
+            $row['section'],
+            $row['id']
+        );
+    }
+    return $coursList;
+}
+
 function getCoursAvecRessourcesValidees() {
     $pdo = getConnexion();
     $sql = "
@@ -55,6 +89,38 @@ function getCoursAvecRessourcesValidees() {
         );
     }
     return $coursList;
+}
+
+function ressourceEstLue($ressourceId, $personneId){
+    $pdo = getConnexion();
+    $sql = "
+    SELECT EXISTS (    
+            SELECT 1
+                FROM LectureRessource r
+                WHERE r.ressource_id = ? AND r.personne_id = ?
+        )
+    ";
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        $ressourceId,
+        $personneId
+    ]);
+
+}
+
+
+function affecterCommeLue($personne_id, $ressource_id){
+    $pdo = getConnexion();
+    $sql = "
+        INSERT INTO Ressources (personne_id, ressource_id)
+        VALUES (?, ?)
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    return $stmt->execute([
+        $personne_id,
+        $ressource_id
+    ]);
 }
 
 function getRessourcesValideesPourCours($coursId) {
@@ -87,6 +153,7 @@ function getRessourcesValideesPourCours($coursId) {
     }
     return $ressourcesList;
 }
+
 
 function ajouterRessource($titre, $type, $cheminRelatif, $coursId,$matricule) {
     if (!isset($_SESSION['user'])) return false;

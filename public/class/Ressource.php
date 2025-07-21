@@ -14,6 +14,8 @@ class Ressource {
     private ?string $auteurNom = null;
     private ?string $auteurPrenom = null;
 
+    
+
     public function __construct(string $titre,string $type,int $coursId,string $personneId,string $etat = 'EN_ATTENTE',?string $cheminRelatif = null,DateTime|string|null $dateValidationAjout = null,DateTime|string|null $dateAjout = null,int $id = 0) {
         $this->titre = $titre;
         $this->type = $type;

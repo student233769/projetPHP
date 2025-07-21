@@ -3,7 +3,6 @@ require_once '../../base_de_donnee/recup_info.php';
 require_once '../class/Personne.php';
 require_once '../class/Ressource.php';
 require_once '../class/Cours.php';
-require_once '../page_builder/header.php';
 
 
 if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
@@ -15,8 +14,6 @@ if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
     </div>
     ');
 }
-
-echo 'j ai charger le reste de la page';
 
 
  ini_set('display_errors', 1);

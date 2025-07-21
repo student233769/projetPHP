@@ -20,7 +20,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     exit;
 }
 
-$liste_cours = getCoursAvecRessourcesValidees();
+$liste_cours = getCoursNonVideValider();
 
 session_write_close();
 ?>

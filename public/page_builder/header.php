@@ -31,7 +31,6 @@ $actual_user = isset($_SESSION['user'])
     : new Personne();
 
 
-
 if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
     $url_page_index = '../index.php';
     exit('
@@ -57,6 +56,13 @@ $imgSrc = $baseProjectUrl
         . '/public/profile_pict/' 
         . rawurlencode($avatarFilename);
 
+if (isset($_GET['action']) && $_GET['action'] === 'logout') {
+    session_unset();
+    session_destroy();
+    header('Location: index.php');
+    exit;
+}
+
 ?>
 
 <!-- USER SECTION -->
@@ -74,7 +80,8 @@ $imgSrc = $baseProjectUrl
     <?php if($actual_user->getMatricule() == null): ?>
         <a class="nav-link text-light" href="./connection.php">Se connecter</a>
     <?php else: ?>
-        <a class="nav-link text-light" href="?action=logout">Se déconnecter</a>
+        <a class="nav-link text-light" href="http://localhost/ViteExo3Chap2/public/index.php">Acceuil</a>
+        <a class="nav-link text-light" href="http://localhost/ViteExo3Chap2/public/index.php?action=logout">Se déconnecter</a>
         <?php if($actual_user->is_admin()): ?>
             <a class="nav-link text-light" href="./admin/admin_index.php">Page Admin</a>
         <?php endif; ?>

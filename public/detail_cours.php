@@ -13,9 +13,9 @@ session_start();
 
 $actual_user = isset($_SESSION['user']) ? unserialize($_SESSION['user']) : null;
 
-if ($actual_user === null) {
-    exit('Accès interdit. Vous devez être connecté.');
-}
+// if ($actual_user === null) {
+//     exit('Accès interdit. Vous devez être connecté.');
+// }
 
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 if (!$id) {
@@ -95,6 +95,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajouter_ressource']))
     } else {
         $message_ajout = '<div class="alert alert-warning" role="alert">Veuillez remplir tous les champs du formulaire correctement.</div>';
     }
+
+
 }
 
 
@@ -143,7 +145,22 @@ $list_ressources = getRessourcesValideesPourCours($id);
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?php echo htmlspecialchars($ressource->getTitre()); ?></h5>
                             <p class="card-text"><strong>Type:</strong> <?php echo htmlspecialchars($ressource->getType()); ?></p>
-                            <a href="<?php echo htmlspecialchars($ressource->getCheminRelatif(), ENT_QUOTES); ?>" target="_blank" class="btn btn-info mt-auto">Voir la ressource</a>
+                            <p class="card-text"> 
+                                <?php if(ressourceEstLue($ressource->getPersonneId(),$actual_user->getMatricule())): ?>
+                                    cette ressource est déjà lue
+                                <?php else: ?>
+                                    ressource encore non consulter
+                                <?php endif; ?>
+                            </p>
+                            
+                            <?php if ($actual_user->getMatricule() != null): ?>
+                                <a href="<?php echo htmlspecialchars($ressource->getCheminRelatif(), ENT_QUOTES); ?>"
+                                target="_blank" class="btn btn-info mt-auto"
+                                    onclick="handleClick(
+                                    <?php affecterCommeLue($actual_user->getMatricule(), $ressource->getId()) ?>,
+                                    );">Voir la ressource
+                                </a>
+                            <?php endif; ?>
                         </div>
                         <div class="card-footer text-muted">
                             Ajouté par <?php echo htmlspecialchars($ressource->getAuteurPrenom() . ' ' . $ressource->getAuteurNom()); ?>
