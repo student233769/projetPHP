@@ -95,32 +95,33 @@ function ressourceEstLue($ressourceId, $personneId){
     $pdo = getConnexion();
     $sql = "
     SELECT EXISTS (    
-            SELECT 1
-                FROM LectureRessource r
-                WHERE r.ressource_id = ? AND r.personne_id = ?
-        )
-    ";
+        SELECT 1
+        FROM LectureRessource r
+        WHERE r.ressource_id = ? AND r.personne_id = ?
+    ) as est_lu";
     $stmt = $pdo->prepare($sql);
-    return $stmt->execute([
-        $ressourceId,
-        $personneId
-    ]);
-
+    $stmt->execute([$ressourceId, $personneId]);
+    return $stmt->fetchColumn() > 0;
 }
 
 
 function affecterCommeLue($personne_id, $ressource_id){
     $pdo = getConnexion();
     $sql = "
-        INSERT INTO Ressources (personne_id, ressource_id)
+        INSERT INTO LectureRessource (personne_id, ressource_id)
         VALUES (?, ?)
     ";
 
     $stmt = $pdo->prepare($sql);
-    return $stmt->execute([
-        $personne_id,
-        $ressource_id
-    ]);
+    try {
+        return $stmt->execute([$personne_id, $ressource_id]);
+    } catch (PDOException $e) {
+        // Ignorer l'erreur si la ressource a déjà été marquée comme lue (doublon)
+        if ($e->getCode() == 23000) { // Code d'erreur pour violation de contrainte d'unicité
+            return true;
+        }
+        return false;
+    }
 }
 
 function getRessourcesValideesPourCours($coursId) {
