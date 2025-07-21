@@ -38,6 +38,14 @@ $ressourcesEnAttente = getRessourcesEnAttenteAvecAuteur();
 <script src="http://localhost:5173/src/js/main.js" type="module"></script>
 <script src="http://localhost:5173/@vite/client" type="module"></script>
 <body>
+      <div class="navbar navbar-expand-lg navbar-dark bg-dark p-3 w-100">
+            <div class="container-fluid d-flex flex-column flex-lg-row align-items-center justify-content-between">
+                
+                <!-- USER SECTION -->
+                <?php include '../page_builder/header.php'; ?>
+
+            </div>
+        </div>
     <div class="container">
         <h1 class="mb-4 text-center ">Validation des Ressources en Attente</h1>
 
