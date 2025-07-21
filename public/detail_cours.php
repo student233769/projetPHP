@@ -101,6 +101,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajouter_ressource']))
 
 
 $list_ressources = getRessourcesValideesPourCours($id);
+
+if (isset($_GET['mark_as_read']) && isset($_SESSION['user'])) {
+    $ressource_id_a_marquer = filter_input(INPUT_GET, 'mark_as_read', FILTER_VALIDATE_INT);
+    $actual_user_for_mark = unserialize($_SESSION['user']);
+
+    if ($ressource_id_a_marquer && $actual_user_for_mark) {
+        affecterCommeLue($actual_user_for_mark->getMatricule(), $ressource_id_a_marquer);
+        // Rediriger pour nettoyer l'URL
+        header("Location: detail_cours.php?id=$id");
+        exit;
+    }
+}
 ?>
 <!doctype html>
 <html lang="fr">
@@ -145,20 +157,21 @@ $list_ressources = getRessourcesValideesPourCours($id);
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title"><?php echo htmlspecialchars($ressource->getTitre()); ?></h5>
                             <p class="card-text"><strong>Type:</strong> <?php echo htmlspecialchars($ressource->getType()); ?></p>
-                            <p class="card-text"> 
-                                <?php if(ressourceEstLue($ressource->getPersonneId(),$actual_user->getMatricule())): ?>
-                                    cette ressource est déjà lue
+                            <p class="card-text">
+                                <?php if($actual_user && ressourceEstLue($ressource->getId(), $actual_user->getMatricule())): ?>
+                                    <span class="badge bg-success">Lue</span>
                                 <?php else: ?>
-                                    ressource encore non consulter
+                                    <span class="badge bg-warning text-dark">Non lue</span>
                                 <?php endif; ?>
                             </p>
                             
-                            <?php if ($actual_user->getMatricule() != null): ?>
-                                <a href="<?php echo htmlspecialchars($ressource->getCheminRelatif(), ENT_QUOTES); ?>"
-                                target="_blank" class="btn btn-info mt-auto"
-                                    onclick="handleClick(
-                                    <?php affecterCommeLue($actual_user->getMatricule(), $ressource->getId()) ?>,
-                                    );">Voir la ressource
+                            <?php if ($actual_user):
+                                $read_url = "detail_cours.php?id=$id&mark_as_read=" . $ressource->getId();
+                            ?>
+                                <a href="<?php echo $read_url; ?>"
+                                   class="btn btn-info mt-auto"
+                                   onclick="window.open('<?php echo htmlspecialchars($ressource->getCheminRelatif(), ENT_QUOTES); ?>', '_blank'); window.location.href='<?php echo $read_url; ?>'; return false;">
+                                    Voir la ressource
                                 </a>
                             <?php endif; ?>
                         </div>
