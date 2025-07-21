@@ -1,4 +1,10 @@
 <?php
+session_start();
+
+// 2) on détermine si l'utilisateur est logué
+$actual_user = isset($_SESSION['user'])
+    ? unserialize($_SESSION['user'])
+    : null;
 
 if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
     $url_page_index = '../index.php';
@@ -13,13 +19,15 @@ if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
-include '../class/Personne.php';
+//  include '../class/Personne.php';
 
 $url_page_index = '../index.php';
-echo $url_page_index;
 
 //CHECK IF THE USER IS NOT AN ADMIN
-if(!$actual_user->is_admin()){
+if($actual_user === null){
+    exit("<p style='color:red;'>Vous n'avez pas le droit d'accéder à cette page: <a href=\"$url_page_index\">Cliquez ici</a></p>");
+}
+else if(!$actual_user->is_admin()){
     exit("<p style='color:red;'>Vous n'avez pas le droit d'accéder à cette page: <a href=\"$url_page_index\">Cliquez ici</a></p>");
 }
 ?>
