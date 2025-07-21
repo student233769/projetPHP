@@ -169,8 +169,8 @@ if (isset($_GET['mark_as_read']) && isset($_SESSION['user'])) {
                                 $read_url = "detail_cours.php?id=$id&mark_as_read=" . $ressource->getId();
                             ?>
                                 <a href="<?php echo $read_url; ?>"
-                                   target="_blank" class="btn btn-info mt-auto"
-                                   onclick="window.open('<?php echo htmlspecialchars($ressource->getCheminRelatif(), ENT_QUOTES); ?>', '_blank'); this.style.display='none'; return false;">
+                                   class="btn btn-info mt-auto"
+                                   onclick="window.open('<?php echo htmlspecialchars($ressource->getCheminRelatif(), ENT_QUOTES); ?>', '_blank'); window.location.href='<?php echo $read_url; ?>'; return false;">
                                     Voir la ressource
                                 </a>
                             <?php endif; ?>
