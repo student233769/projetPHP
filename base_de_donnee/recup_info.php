@@ -121,8 +121,9 @@ function validerRessource($ressourceId, $etat) {
 
 function getRessourcesUtilisateurConnecte() {
     if (!isset($_SESSION['user'])) return [];
+    $actual_user = unserialize($_SESSION['user']);
 
-    $matricule = $_SESSION['user'];
+    $matricule = $actual_user->getMatricule();
 
     $pdo = getConnexion();
     $sql = "

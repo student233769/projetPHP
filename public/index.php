@@ -47,7 +47,12 @@ session_write_close();
         </div>
         <div class="container mt-3">
             <h1>Cours disponible</h1>
-            <a href="historique_post.php">voir nos ressources poster</a>
+            <?php if (isset($_SESSION['user'])): ?>
+              <p class="mt-3">
+                <a href="historique_post.php">Voir vos ressources postées</a>
+              </p>
+            <?php endif; ?>
+            
             <div class="row" id="quotes-container">
                 <?php if(count($liste_cours) > 0): ?>
                     <?php foreach($liste_cours as $cours): ?>

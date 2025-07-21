@@ -50,12 +50,3 @@ class Personne{
 
 
 }
-
-/*
-  matricule VARCHAR(50) PRIMARY KEY,
-  mdp VARCHAR(255) NOT NULL,
-  nom VARCHAR(255) NOT NULL,
-  prenom VARCHAR(255) NOT NULL,
-  avatar VARCHAR(255),
-  administrateur TINYINT(1) NOT NULL DEFAULT 0
-*/

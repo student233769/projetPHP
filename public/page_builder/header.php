@@ -43,27 +43,19 @@ if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
 }
 
 
+$baseProjectUrl = $_SERVER['REQUEST_SCHEME']
+                . '://' 
+                . $_SERVER['HTTP_HOST']
+                . '/ViteExo3Chap2';
 
 
-$publicDir = __DIR__;
-$docRoot   = realpath($_SERVER['DOCUMENT_ROOT']);
-$baseUrl = str_replace('\\','/', substr($publicDir, strlen($docRoot)));
-if ($baseUrl === false || $baseUrl === '') {
-    $baseUrl = '';
-}
+// 4. Choix de l’avatar (nom de fichier)
+$avatarFilename = $actual_user->getAvatar() ?: 'buste.jpg';
 
-$avatar = $_SESSION['user']['avatar'] ?? 'buste.jpg';
-$imgSrc = $baseUrl . '/../profile_pict/' . $avatar;
-$actual_user = null;
-
-
-
-
-if (isset($_SESSION['user'])) {
-    $actual_user = unserialize($_SESSION['user']);
-} else {
-    $actual_user = new Personne();
-}
+// 5. URL complète de l’image
+$imgSrc = $baseProjectUrl 
+        . '/public/profile_pict/' 
+        . rawurlencode($avatarFilename);
 
 ?>
 

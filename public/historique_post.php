@@ -36,7 +36,7 @@ if (
 
 
 $liste_cours_poster_utilisateur = getRessourcesUtilisateurConnecte();
-echo 'j ai recuperer '. count($liste_cours_poster_utilisateur);
+// echo 'j ai recuperer '. count($liste_cours_poster_utilisateur);
 ?>
 
 
