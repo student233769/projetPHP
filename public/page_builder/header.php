@@ -72,7 +72,7 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
 
     <div>
         <p class="text-light mb-0"><?php echo $actual_user->getNom(); ?></p>
-        <p class="matricule mb-0"><?php echo $actual_user->getPrenom(); ?></p>
+        <p class="text-light matricule mb-0"><?php echo $actual_user->getPrenom(); ?></p>
 
     </div>
 </div>

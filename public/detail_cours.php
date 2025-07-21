@@ -141,11 +141,14 @@ if (isset($_GET['mark_as_read']) && isset($_SESSION['user'])) {
 
         <?php if (!empty($message_ajout)) echo $message_ajout; ?>
 
+        
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h2>Ressources disponibles</h2>
+            <?php if ($actual_user->getMatricule() != null): ?>
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addResourceModal">
               + Ajouter une ressource
             </button>
+            <?php endif; ?>
         </div>
         <hr>
 
@@ -165,7 +168,7 @@ if (isset($_GET['mark_as_read']) && isset($_SESSION['user'])) {
                                 <?php endif; ?>
                             </p>
                             
-                            <?php if ($actual_user):
+                            <?php if ($actual_user->getMatricule() != null):
                                 $read_url = "detail_cours.php?id=$id&mark_as_read=" . $ressource->getId();
                             ?>
                                 <a href="<?php echo $read_url; ?>"
@@ -196,6 +199,8 @@ if (isset($_GET['mark_as_read']) && isset($_SESSION['user'])) {
           <div class="modal-header">
             <h5 class="modal-title" id="addResourceModalLabel">Ajouter une nouvelle ressource</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+            
           </div>
           <div class="modal-body">
             <form action="detail_cours.php?id=<?php echo htmlspecialchars($id, ENT_QUOTES); ?>" method="POST" id="resourceForm" enctype="multipart/form-data">

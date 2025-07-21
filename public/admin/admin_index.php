@@ -20,7 +20,6 @@ if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
  ini_set('display_startup_errors', 1);
  error_reporting(E_ALL);
 
-include '../class/Personne.php';
 
 include '../acces_page/admin_only.php';
 $message = '';
