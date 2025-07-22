@@ -42,7 +42,7 @@ class Ressource {
     public function getPersonneId(): string { return $this->personneId; }
     public function getEtat(): string { return $this->etat; }
     public function getEstDejaLue(): bool { return $this->estDejaLue; }
-    public function getCheminRelatif(): ?string { return $this->cheminRelatif; }
+    public function getCheminRelatif(): ?string { return "http://localhost/ViteExo3Chap2/".$this->cheminRelatif; }
     public function getId(): int { return $this->id; }
     public function getAuteurNom(): ?string { return $this->auteurNom; }
     public function getAuteurPrenom(): ?string { return $this->auteurPrenom; }
