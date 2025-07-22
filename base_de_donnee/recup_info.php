@@ -91,6 +91,22 @@ function getCoursAvecRessourcesValidees() {
     return $coursList;
 }
 
+function getAllCours() {
+    $pdo = getConnexion();
+    $sql = "SELECT id, titre, bloc, section FROM Cours ";
+    $stmt = $pdo->query($sql);
+    $coursList = [];
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $coursList[] = new Cours(
+            $row['titre'],
+            $row['bloc'],
+            $row['section'],
+            $row['id']
+        );
+    }
+    return $coursList;
+}
+
 function ressourceEstLue($ressourceId, $personneId){
     $pdo = getConnexion();
     $sql = "
