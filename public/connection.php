@@ -7,11 +7,11 @@ error_reporting(E_ALL);
 
 
 require_once __DIR__.'/class/Personne.php';
-require_once __DIR__.'/../base_de_donnee/recup_info.php';
+require_once __DIR__.'/base_de_donnee/recup_info.php';
 
 session_start();
 
-
+///////// ATTENTION MISE EN PROD A FAIRE ICI 
 
 $message = '';
 $current_user = new Personne();

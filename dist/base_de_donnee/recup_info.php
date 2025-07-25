@@ -1,8 +1,12 @@
 <?php
 require_once 'bd_connection.php';
-require_once __DIR__ . '/../public/class/Personne.php';
-require_once __DIR__ .  '/../public/class/Cours.php';
-require_once __DIR__ .  '/../public/class/Ressource.php';
+require_once __DIR__ . '/../class/Personne.php';
+require_once __DIR__ .  '/../class/Cours.php';
+require_once __DIR__ .  '/../class/Ressource.php';
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 function login($matricule, $motdepasse) {
     $pdo = getConnexion();

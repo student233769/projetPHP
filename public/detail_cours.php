@@ -1,12 +1,14 @@
 <?php
 
-//ini_set('display_errors', 1);
-//ini_set('display_startup_errors', 1);
-//error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 require_once __DIR__ . '/class/Personne.php';
 require_once __DIR__ . '/class/Ressource.php';
-require_once __DIR__ . '/../base_de_donnee/recup_info.php';
+require_once __DIR__ . '/base_de_donnee/recup_info.php';
+
+
 
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 session_start();
@@ -128,6 +130,7 @@ if (isset($_GET['mark_as_read']) && isset($_SESSION['user'])) {
       }
     </style>
   </head>
+
   <body>
     <main>
 

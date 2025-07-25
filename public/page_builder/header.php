@@ -1,3 +1,38 @@
+<!-- En dev Vite injectera ici @vite/client et ton main.js -->
+<?php
+
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+// Passe $production à false en local ou en dev
+$production = false; //--------------------------------TRUER POUR EN PROD --------------------------------
+
+if ($production) {
+  // On lit le manifest généré par Vite (après un npm run build)
+  $manifestPath = './manifest.json'; 
+  $manifestJson = json_decode(file_get_contents($manifestPath), true);
+
+  // Récupère le nom de fichier JS et son CSS associé
+  $mainJs = $manifestJson['src/js/main.js']['file'];
+  $mainCss = $manifestJson['src/js/main.js']['css'][0] ?? null;
+  ?>
+  <!-- En production, on sert les bundles hachés -->
+  <script type="module" src="<?php echo htmlspecialchars($mainJs); ?>"></script>
+  <?php if ($mainCss): ?>
+    <link rel="stylesheet" href="<?php echo htmlspecialchars($mainCss); ?>">
+  <?php endif; ?>
+<?php
+} else {
+  // En développement, on utilise le serveur Vite pour le hot‑reload
+  ?>
+  <script type="module" src="http://localhost:5173/@vite/client"></script>
+  <script type="module" src="http://localhost:5173/src/js/main.js"></script>
+  <?php
+}
+?>
+
 <?php
 
 //ini_set('display_errors', 1);
@@ -6,7 +41,7 @@
 
 require_once __DIR__ . '/../class/Personne.php';
 require_once __DIR__ . '/../class/Ressource.php';
-require_once __DIR__ . '/../../base_de_donnee/recup_info.php';
+require_once __DIR__ . '/../base_de_donnee/recup_info.php';
 
 //session_start();
 
@@ -42,26 +77,27 @@ if( basename($_SERVER['PHP_SELF']) === basename(__FILE__) ){
 }
 
 
-$baseProjectUrl = $_SERVER['REQUEST_SCHEME']
-                . '://' 
-                . $_SERVER['HTTP_HOST']
-                . '/ViteExo3Chap2';
+// $baseProjectUrl = $_SERVER['REQUEST_SCHEME']
+//                 . '://' 
+//                 . $_SERVER['HTTP_HOST']
+//                 . '/projet_php_repase';
 
 
 // 4. Choix de l’avatar (nom de fichier)
 $avatarFilename = $actual_user->getAvatar() ?: 'buste.jpg';
 
 // 5. URL complète de l’image
-$imgSrc = $baseProjectUrl 
-        . '/public/profile_pict/' 
+$imgSrc = __DIR__ 
+        . '/profile_pict/' 
         . rawurlencode($avatarFilename);
-
 if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     session_unset();
     session_destroy();
-    header('Location: index.php');
+    header("Location: " . __DIR__);
     exit;
 }
+
+var_dump($imgSrc); exit;
 
 ?>
 
@@ -80,10 +116,15 @@ if (isset($_GET['action']) && $_GET['action'] === 'logout') {
     <?php if($actual_user->getMatricule() == null): ?>
         <a class="nav-link text-light" href="./connection.php">Se connecter</a>
     <?php else: ?>
-        <a class="nav-link text-light" href="http://localhost/ViteExo3Chap2/public/index.php">Acceuil</a>
-        <a class="nav-link text-light" href="http://localhost/ViteExo3Chap2/public/index.php?action=logout">Se déconnecter</a>
+        <a class="nav-link text-light" href="http://localhost/projet_php_repase/public/index.php">Acceuil</a>
+        <a class="nav-link text-light" href="http://localhost/projet_php_repase/public/index.php?action=logout">Se déconnecter</a>
+        <?php if(!$actual_user->getMatricule() == null): ?>
+            <a class="nav-link text-light" href="http://localhost/projet_php_repase/public/ajout_ressource.php">Ajouter une ressource</a>
+        <?php endif; ?>
+
         <?php if($actual_user->is_admin()): ?>
             <a class="nav-link text-light" href="./admin/admin_index.php">Page Admin</a>
         <?php endif; ?>
     <?php endif; ?>
 </div>
+
